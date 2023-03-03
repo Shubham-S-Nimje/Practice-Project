@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,11 +7,13 @@ import Alert from 'react-bootstrap/Alert';
 const Form1 = (props) => {
     const [show, setShow] = useState(false);
     const [error, seterror] = useState('');
+    const college = useRef();
     const onSubmitHandler = (e) => {
         e.preventDefault();
         // const name=e.target.username.value;
         // const age = e.target.age.value;
-        if(name.length===0 || name.length===0)
+        const enteredcol = college.current.value
+        if(name.length===0 || name.length===0 || enteredcol.length===0)
         {
             console.log('error')
             setShow(true)
@@ -26,9 +28,11 @@ const Form1 = (props) => {
         else{
         console.log(name);
         console.log(age);
-        props.adduser(name,age);
+        console.log(enteredcol);
+        props.adduser(name,age,enteredcol);
         setUsername('')
         setUserage('')
+        college.current.value = '';
         setShow(false)
         }
     }
@@ -52,8 +56,7 @@ const Form1 = (props) => {
       );
     }
   return (
-    <div className="container py-10">
-      
+    <div className="container d-grid gap-3 p-2 m-2">
       <Form onSubmit={onSubmitHandler}>
       <Form.Group className="mb-3" controlId="username" onChange={onUsernameAddedHandler}>
         <Form.Label>Username:</Form.Label>
@@ -64,6 +67,12 @@ const Form1 = (props) => {
         <Form.Label>Age(in Years):</Form.Label>
         <Form.Control type="number" value={age}/>
       </Form.Group>
+
+      <Form.Group className="mb-3" controlId="colname">
+        <Form.Label>college:</Form.Label>
+        <Form.Control type="text" ref={college}/>
+      </Form.Group>
+
       <Button variant="primary" type="submit">
         Submit
       </Button>
