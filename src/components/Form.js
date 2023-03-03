@@ -8,11 +8,13 @@ const Form1 = (props) => {
     const [show, setShow] = useState(false);
     const [error, seterror] = useState('');
     const college = useRef();
+    
     const onSubmitHandler = (e) => {
         e.preventDefault();
         // const name=e.target.username.value;
         // const age = e.target.age.value;
         const enteredcol = college.current.value
+
         if(name.length===0 || name.length===0 || enteredcol.length===0)
         {
             console.log('error')
@@ -36,6 +38,7 @@ const Form1 = (props) => {
         setShow(false)
         }
     }
+
     const [name, setUsername] = useState('')
     const onUsernameAddedHandler = (e) => {
         setUsername(e.target.value)
@@ -45,6 +48,17 @@ const Form1 = (props) => {
     const onUserageAddedHandler = (e) => {
         setUserage(e.target.value)
     }
+
+    const [valid, setValid] = useState(true);
+    const onUsercolAddedHandler = () => {
+        if(college.current.value.length>2){
+          setValid(false)
+        }
+        else{
+          setValid(true)
+        }
+    }
+
     if (show) {
       return (
         <Alert variant="danger" onClose={() => setShow(false)} dismissible>
@@ -55,6 +69,9 @@ const Form1 = (props) => {
         </Alert>
       );
     }
+    
+
+    
   return (
     <div className="container d-grid gap-3 p-2 m-2">
       <Form onSubmit={onSubmitHandler}>
@@ -68,12 +85,12 @@ const Form1 = (props) => {
         <Form.Control type="number" value={age}/>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="colname">
+      <Form.Group className="mb-3" controlId="colname" onChange={onUsercolAddedHandler}>
         <Form.Label>college:</Form.Label>
         <Form.Control type="text" ref={college}/>
       </Form.Group>
 
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" disabled={valid ? true : false}>
         Submit
       </Button>
     </Form>
