@@ -6,14 +6,22 @@ import Alert from 'react-bootstrap/Alert';
 
 const Form1 = (props) => {
     const [show, setShow] = useState(false);
+    const [error, seterror] = useState('');
     const onSubmitHandler = (e) => {
         e.preventDefault();
         // const name=e.target.username.value;
         // const age = e.target.age.value;
-        if(name.length<=0 || age.length<=0)
+        if(name.length===0 || name.length===0)
         {
             console.log('error')
             setShow(true)
+            seterror('name or age shoud not be empty')
+        }
+        else if(age<1)
+        {
+            console.log('error')
+            setShow(true)
+            seterror('age shoud not be negative')
         }
         else{
         console.log(name);
@@ -38,7 +46,7 @@ const Form1 = (props) => {
         <Alert variant="danger" onClose={() => setShow(false)} dismissible>
           <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
           <p>
-            Please check your inputs shoud not be empty.
+            Please check your {error}.
           </p>
         </Alert>
       );
